@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CYAIA</title>
+</head>
+<body>
+	
+	<div class="container-animatebutton">
+		<button onclick="animar()">Siguiente Animacion</button>
+	</div>
+
+	<div class="container-tree">
+		<canvas id="viewport" width="800" height="600"></canvas>
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/arbor-tween.js"></script>
+	<script src="js/arbor.js"></script>
+	<script src="js/graphics.js"></script>
+	<script src="js/renderer.js"></script>
+	<script src="js/tree_generate.js"></script>
+	<script src="js/tree_animation.js"></script>
+	<script src="js/amplitude_blind_search.js"></script>
+
+	<script language="javascript" type="text/javascript">
+		var sys = arbor.ParticleSystem(1000, 600,0.5)
+		sys.parameters({gravity:true})
+		sys.renderer = Renderer("#viewport") 
+		var tree = new Tree()
+		tree.createTree()
+		var Treeanimation=new TreeAnimation(tree.nodes, tree.arcs, tree.depth, tree.breadth, tree.brothers, 800, 600)
+		Treeanimation.addNodes()
+		Treeanimation.addEdges()
+		var Busqueda=new BusquedaCiegaAmplitud(tree.nodes, tree.arcs, tree.values)
+		var node=Busqueda.recorridoAnchura()
+
+
+		function animar(){
+			Treeanimation.animation(Treeanimation.Aedges, Busqueda.arcos_recorridos, node)
+			/*
+			var l=arcs.length
+			var arc=arcs.shift()
+			Treeanimation.animation(arc, l)
+			*/
+		}
+
+		
+		//document.writeln(Busqueda.recorridoAnchura())
+		//document.writeln(Busqueda.arcos_recorridos)
+		
+		//Treeanimation.seleccion(Busqueda.recorridoAnchura())
+		//Treeanimation.animation(Busqueda.recorridoAnchura())
+	</script>
+</body>
+</html>
